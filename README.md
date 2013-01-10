@@ -23,37 +23,86 @@ This component can be used as an advanced, highly configurable (by developer and
 2. Deploy the Force.com metadata under the src folder to your destination org. You can deploy that using [Force.com Migration Tool](http://wiki.developerforce.com/index.php/Force.com_Migration_Tool) #or by using [Force.com IDE](http://wiki.developerforce.com/index.php/Force.com_IDE)
 
 
-## Usage / Examples ##
-There are two ways to extend or override Mobile Web SDK’s client-side behavior: listen for and act upon events and/or extend standard Mobile Web SDK Javascript components.
+## Usage Examples ##
 
-### Events
-Mobile Web SDK Javascript events provide hooks into key user-interaction and Mobile Web SDK’s lifecycle points. When an event is fired, an event listener may augment the firing component’s behavior by changing or adding to passed parameters. Event listeners may also perform functions based on user trigger actions, such as change styling when an List component item is selected. Additionally, event listener may act upon standard jQuery Mobile events such as page loading (see jQuery Mobile documentation).
-
-For Example: When a List component’s item is selected, the following with open a dialog box:
-
-        $(document).on('listitemselect', function(e, context) {
-            alert('You selected id: ' + context.data.Id);
-        });
-
-### Extending Mobile Web SDK Javascript Components
-For more extensive customizations, Mobile Web SDK’s Javascript components may be extended to override or provide additional functionality to standard component behavior or styling.  For example, the Visualforce.Mobile.ListComponent Javascript component provides a basic list item template for each row in a list.  To customize the template, create a new Javascript class by extending Visualforce.Mobile.ListComponent and re-implement the getTemplate method.  Lastly, register the new class with the List component’s compHandler attribute.  When the List component is instantiated, an instance of the custom ListComponent will be created and its Mobile Web SDK lifecycle methods invoked.  Class customizations may call the parent class’s implementation before or after additional functionality or replace the underlying implementations altogether.  Custom implementations must extend Visualforce.Mobile.Component to hook into Mobile Web SDK lifecycle.
-
-For Example: To provide a custom list item template:
-
-        MyListComponent = Visualforce.Mobile.ListComponent.extend({
-            getTemplate: function() {
-                return '<h3 class="my-heading">${' + this.config.labelField + '}</h3>');
-            }
-        }
-        <c:List ... compHandler="MyListComponent"/>
+### TableGrid in a standalone Visualforce page
 
 
-## Known Issue / ToDos ##
-- Improve Performace (loading, partial rerender, select rows,...)
+        <apex:page showHeader="false" sidebar="false"> 
+        	<apex:form >
+        		...
+		    <c:tableGrid type="Account" 
+		                 title="Accounts (TableGrid temporarily customizable)"
+		                 fields="Name, Type, BillingCity, BillingState, BillingPostalCode, BillingCountry, Phone, Fax, AccountNumber, Website"
+		                 sortBy="Name" 
+		                 sortDescending="true"
+		                 gridPageId="customizeTemp"
+		                 mode="list"
+		                 customizeFields="true"
+		                 customizeFilter="true"
+		                 pageSize="10" />
+		     ...
+         
+
+### TableGrid embedded into Standard Page Layouts
+
+This  snippet is taken from the sample page
+
+		<apex:page standardController="Account"> 
+		    <apex:form>
+		        
+		        ...
+		        
+		        <!-- Advanced Related list -->
+		        <c:tableGrid type="Contact" 
+		                     fields="Id, Name, Email, Birthdate" 
+		                     filter="AccountId = '{!Account.Id}'"
+		                     title="Contacts" 
+		                     gridPageId="readonly"
+		                     pageSize="5"
+		                     mode="list"/>
+		             
+		        <!-- Editable grid with customization turned on -->        
+		        <c:tableGrid type="Opportunity" 
+		                     fields="Name,StageName,Amount,CloseDate" 
+		                     filter="AccountId = '{!Account.Id}'"
+		                     sortBy="Name" 
+		                     sortDescending="true"
+		                     title="Opportunities" 
+		                     gridPageId="editable"
+		                     customizeFields="true"
+		                     customizeFilter="true"
+		                     pageSize="5"
+		                     mode="edit"/>     
+	                                     
+
+
+
+### TableGrid as an Advanced Lookup Popup
+
+This  snippet is taken from the sample page
+
+	<apex:page standardController="Contact">    
+	    <apex:form>
+	    	...
+		    <c:advancedLookup > 
+		        <apex:inputField value="{!Contact.AccountId}" label="" />
+		    </c:advancedLookup>
+		    ...
+		</apex:form>
+	</apex:page>
+    
+> ![TableGrid as an Advanced Lookup Popup](https://raw.github.com/Up2Go/TableGrid/master/resources/advancedLookup.png)
+ 
+
+## Room for Improvement ##
+- *Performance* (loading, partial rerender, select rows,...)
   - Reduce Viewstate
   - Replace ActionSupport with Javascript Remoting
   - Reduce Markup-Size
-- 
+- Allow to filter for read-only fields in WhereClauseBuilder without loosing the context-sensitive input field.
+- Fix random bugs when selecting and then saving/deleting
+
 
 ## Third-party Code ##
 
@@ -77,12 +126,14 @@ Q: Where should I provide feedback and bug reports?
 A: We’re going to use GitHub for all collaboration.
 
 Q: Can I distribute this in my app?  
-A: Yes
+A: tbd
 
 Q: How is this framework supported?  
 A: This is unsupported software from the Force.com development community. We will make our best efforts to fix bugs and add enhancements. We also encourage the community to fork the code and make independent changes.
 
+
 ## Visualforce TableGrid License ##
+
 Copyright (c) 2012, Up2Go International, LLC All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
