@@ -5,13 +5,7 @@ does not exist in the Standard Uthat was open-sourced to  that provides advanced
 Note: The library is still in heavy development and is missing certain features as well as complete documentation.
 This document is intended to introduce you to the app's architecture and design and make it as easy as possible for you to jump in, run it, and start contributing.
 
-- Features
-- Installation
-- Usage / Examples
-- Known Issues / ToDos
-- Third-party Code
-- FAQ
-- Visualforce TableGrid License
+> ![Two TableGrid instanced replacing Standard Related Lists in a Standard Page Layout](https://github.com/Up2Go/TableGrid/blob/master/resources/tableGrid_embedded.png)
 
 ## Features ##
 - Highly customizable Visualforce component <c:tableGrid..>
@@ -28,8 +22,8 @@ This document is intended to introduce you to the app's architecture and design 
  
 
 ## Installation ##
-1. Grab the source code: `git clone https://github.com/ForceDotCom/MobileComponents.git`
-2. Deploy the Force.com metadata under TableGrid/src folder to your destination org. You can deploy that using [Force.com Migration Tool](http://wiki.developerforce.com/index.php/Force.com_Migration_Tool) #or by using [Force.com IDE](http://wiki.developerforce.com/index.php/Force.com_IDE)
+1. Grab the source code: `git clone https://github.com/Up2Go/TableGrid.git`
+2. Deploy the Force.com metadata under the src folder to your destination org. You can deploy that using [Force.com Migration Tool](http://wiki.developerforce.com/index.php/Force.com_Migration_Tool) #or by using [Force.com IDE](http://wiki.developerforce.com/index.php/Force.com_IDE)
 
 
 ## Usage / Examples ##
