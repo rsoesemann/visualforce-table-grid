@@ -5,7 +5,7 @@ does not exist in the Standard Uthat was open-sourced to  that provides advanced
 Note: The library is still in heavy development and is missing certain features as well as complete documentation.
 This document is intended to introduce you to the app's architecture and design and make it as easy as possible for you to jump in, run it, and start contributing.
 
-> ![Two TableGrid instanced replacing Standard Related Lists in a Standard Page Layout](https://github.com/Up2Go/TableGrid/blob/master/resources/tableGrid_embedded.png)
+> ![Two TableGrid instanced replacing Standard Related Lists in a Standard Page Layout](https://raw.github.com/Up2Go/TableGrid/master/resources/tableGrid_embedded.png)
 
 ## Features ##
 - Highly customizable Visualforce component <c:tableGrid..>
