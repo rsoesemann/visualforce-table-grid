@@ -4,11 +4,11 @@ Visualforce TableGrid is a free, open-source Force.com library, that provides a 
 does not exist in the Standard Uthat was open-sourced to  that provides advanced UI capabilities to simplify the development of mobile apps. The framework contains lightweight Visualforce UI components that generate cross-platform HTML5 output that runs well on smartphones and tablets. The apps can be deployed in the browser or embedded inside Container from the Salesforce Mobile SDK. 
 Note: The library is still in heavy development and is missing certain features as well as complete documentation.
 This document is intended to introduce you to the app's architecture and design and make it as easy as possible for you to jump in, run it, and start contributing.
-TEST2
+
 - Features
 - Installation
 - Usage / Examples
-- Known Issues
+- Known Issues / ToDos
 - Third-party Code
 - FAQ
 - Visualforce TableGrid License
@@ -57,7 +57,7 @@ For Example: To provide a custom list item template:
         <c:List ... compHandler="MyListComponent"/>
 
 
-## Known Issue / ToDo ##
+## Known Issue / ToDos ##
 - Improve Performace (loading, partial rerender, select rows,...)
   - Reduce Viewstate
   - Replace ActionSupport with Javascript Remoting
