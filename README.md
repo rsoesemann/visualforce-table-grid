@@ -1,9 +1,14 @@
 # Visualforce TableGrid #
 
+[Installation](#installation) | [Usage](#usage) | [ToDos](#todo) | [Third Party Code](#thirdparty) | [Licence](#license) | 
+
 TableGrid is a free, open-source Force.com library, that provides a users and developers with a *highly customizable, native-looking, sortable, filterable, editable* Visualforce Grid component. 
 This component can be used as an advanced, highly configurable (by developer and user) replacement of <apex:pageBlockTable>s and Standard Related Lists.
 
-## Features are: ##
+> ![Two instances of Visualforce TableGrid, one read-only and one editable version.](https://raw.github.com/Up2Go/TableGrid/master/resources/grid.png)
+ 
+ 
+## Features: ##
 - Native Salesforce.com Look And Feel
 - Works as Standalone table grid or as an embedded replacement for Related List
 - Can replace Standard Lookup popups with <c:advancedLookup>
@@ -15,15 +20,13 @@ This component can be used as an advanced, highly configurable (by developer and
 - Field Selection UI to let users customize columns 
 - Each user's customizations can be auto-saved in a "database-cookie"
 
-> ![Two instances of Visualforce TableGrid, one read-only and one editable version.](https://raw.github.com/Up2Go/TableGrid/master/resources/grid.png)
- 
 
-## Installation ##
+## <a id="installation"></a> Installation ##
 1. Grab the source code: `git clone https://github.com/Up2Go/TableGrid.git`
 2. Deploy the Force.com metadata under the src folder to your destination org. You can deploy that using [Force.com Migration Tool](http://wiki.developerforce.com/index.php/Force.com_Migration_Tool) #or by using [Force.com IDE](http://wiki.developerforce.com/index.php/Force.com_IDE)
 
 
-## Usage Examples ##
+## <a id="usage"></a> Usage Examples ##
 
 ### TableGrid in a standalone Visualforce page
 
@@ -97,7 +100,7 @@ This  snippet is taken from the sample page
 > ![TableGrid as an Advanced Lookup Popup](https://raw.github.com/Up2Go/TableGrid/master/resources/advancedLookup.png)
  
 
-## Room for Improvement ##
+## <a id="todo"></a> Room for Improvement ##
 - *Performance* (loading, partial rerender, select rows,...)
   - Reduce Viewstate
   - Replace ActionSupport with Javascript Remoting
@@ -106,7 +109,7 @@ This  snippet is taken from the sample page
 - Fix random bugs when selecting and then saving/deleting
 
 
-## Third-party Code ##
+## <a id="thirdparty"></a> Third-party Code ##
 
 This library makes use of a number of third-party components:
 
@@ -116,7 +119,7 @@ This library makes use of a number of third-party components:
 - [Apex-Select-Option-Sorting](https://github.com/abhinavguptas/Apex-Select-Option-Sorting), an Apex sort utility class for SelectOptions
 
 
-## FAQ ##
+## <a id="faq"></a>FAQ ##
 
 Q: Why did we create this library?  
 A: HTML5 developers need a robust set of components to build mobile apps. This library provides a way to share the lessons learned creating Contact Viewer and provide re-usable components that can be plugged into Visualforce. 
@@ -134,7 +137,7 @@ Q: How is this framework supported?
 A: This is unsupported software from the Force.com development community. We will make our best efforts to fix bugs and add enhancements. We also encourage the community to fork the code and make independent changes.
 
 
-## Visualforce TableGrid License ##
+## <a id="license"></a>Visualforce TableGrid License ##
 
 Copyright (c) 2012, Up2Go International, LLC All rights reserved.
 
