@@ -1,24 +1,21 @@
 # TableGrid for Visualforce #
 
-Visualforce TableGrid is a free, open-source Force.com library, that provides a Visualforce UI that currently (Spring '13) 
-does not exist in the Standard Uthat was open-sourced to  that provides advanced UI capabilities to simplify the development of mobile apps. The framework contains lightweight Visualforce UI components that generate cross-platform HTML5 output that runs well on smartphones and tablets. The apps can be deployed in the browser or embedded inside Container from the Salesforce Mobile SDK. 
-Note: The library is still in heavy development and is missing certain features as well as complete documentation.
-This document is intended to introduce you to the app's architecture and design and make it as easy as possible for you to jump in, run it, and start contributing.
+TableGrid is a free, open-source Force.com library, that provides a users and developers with a *highly customizable, native-looking, sortable, filterable, editable* Visualforce Grid component. 
+This component can be used as an advanced, highly configurable (by developer and user) replacement of <apex:pageBlockTable>s and Standard Related Lists.
 
-> ![Two TableGrid instanced replacing Standard Related Lists in a Standard Page Layout](https://raw.github.com/Up2Go/TableGrid/master/resources/tableGrid_embedded.png)
-
-## Features ##
-- Highly customizable Visualforce component <c:tableGrid..>
+## Features are: ##
 - Native Salesforce.com Look And Feel
-- Works as Standalone table grid or replacement for Related List
+- Works as Standalone table grid or as an embedded replacement for Related List
 - Can replace Standard Lookup popups with <c:advancedLookup>
-- Works for Standard + Custom SObjects
+- Works for Standard and Custom SObjects
 - Spreadsheet-like Cell-Editing
 - Delete Muliple records
 - Pagination with cutomizable page size
 - Filter Builder UI to let users filter records
 - Field Selection UI to let users customize columns 
 - Each user's customizations can be auto-saved in a "database-cookie"
+
+> ![Two TableGrid instanced replacing Standard Related Lists in a Standard Page Layout](https://raw.github.com/Up2Go/TableGrid/master/resources/tableGrid_embedded.png)
  
 
 ## Installation ##
