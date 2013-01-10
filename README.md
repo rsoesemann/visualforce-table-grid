@@ -14,22 +14,22 @@ This document is intended to introduce you to the app's architecture and design 
 - Visualforce TableGrid License
 
 ## Features ##
-1. **App Component**: Component to provide wrapper for any mobile application. This component provides all the settings and architecture pieces (including jQuery and jQuery Mobile) for mobile app development.
-2. **SplitView Template**: SplitView Template is a Page template to provide the split view components on the page. In landscape mode, it provides a left menu section and a broad main section and in portrait mode, it turns the left menu into a popover.
-3. **List Component**: List Component provides a quick and easy way to render a record list for any sobject. One can easily manage the behavior of the component by using the various attributes or the javascript hooks on this component.
-4. **Detail Component**: Detail Component provides a quick and easy way to render the details for any sobject. One can easily manage the behavior of the component by using the various attributes or the javascript hooks on this component.
-5. **Page Component**: Page Component provides a jQuery Mobile wrapper with `data-role="page"`.
-6. **Header Component**: Header Component provides a jQuery Mobile wrapper with `data-role="header"` for header sections inside a Page component.
-7. **Content Component**: Content Component provides a jQuery Mobile wrapper with `data-role="content"` for content sections inside a Page component.
-8. **Footer Component**: Footer Component provides a jQuery Mobile wrapper with `data-role="footer"` for footer sections inside a Page component.
-9. **Navigation Component**: Navigation Component can be used to create hooks for navigation between various jQuery Mobile pages.
-
+- Highly customizable Visualforce component <c:tableGrid..>
+- Native Salesforce.com Look And Feel
+- Works as Standalone table grid or replacement for Related List
+- Can replace Standard Lookup popups with <c:advancedLookup>
+- Works for Standard + Custom SObjects
+- Spreadsheet-like Cell-Editing
+- Delete Muliple records
+- Pagination with cutomizable page size
+- Filter Builder UI to let users filter records
+- Field Selection UI to let users customize columns 
+- Each user's customizations can be auto-saved in a "database-cookie"
  
+
 ## Installation ##
 1. Grab the source code: `git clone https://github.com/ForceDotCom/MobileComponents.git`
-2. Deploy the Force.com metadata under MobileComponents/Visualforce/src folder to your destination org. You can deploy that using [Force.com Migration Tool](http://wiki.developerforce.com/index.php/Force.com_Migration_Tool) or by using [Force.com IDE](http://wiki.developerforce.com/index.php/Force.com_IDE)
-3. Login into your destination org and setup following:
-    1. Remote Site: Under Setup -> Administration Setup -> Security Controls -> Remote Site Settings, create a new Remote Site and specify your org's instance URL for the Remote Site URL. Eg. if your org is on instance NA1, the Remote Site URL will be `https://na1.salesforce.com`.
+2. Deploy the Force.com metadata under TableGrid/src folder to your destination org. You can deploy that using [Force.com Migration Tool](http://wiki.developerforce.com/index.php/Force.com_Migration_Tool) #or by using [Force.com IDE](http://wiki.developerforce.com/index.php/Force.com_IDE)
 
 
 ## Usage / Examples ##
@@ -57,11 +57,11 @@ For Example: To provide a custom list item template:
         <c:List ... compHandler="MyListComponent"/>
 
 
-## Known Issues ##
+## Known Issue / ToDo ##
 - Improve Performace (loading, partial rerender, select rows,...)
   - Reduce Viewstate
   - Replace ActionSupport with Javascript Remoting
-  - 
+  - Reduce Markup-Size
 - 
 
 ## Third-party Code ##
