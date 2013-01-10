@@ -1,4 +1,4 @@
-# TableGrid for Visualforce #
+# Visualforce TableGrid #
 
 TableGrid is a free, open-source Force.com library, that provides a users and developers with a *highly customizable, native-looking, sortable, filterable, editable* Visualforce Grid component. 
 This component can be used as an advanced, highly configurable (by developer and user) replacement of <apex:pageBlockTable>s and Standard Related Lists.
@@ -15,7 +15,7 @@ This component can be used as an advanced, highly configurable (by developer and
 - Field Selection UI to let users customize columns 
 - Each user's customizations can be auto-saved in a "database-cookie"
 
-> ![Two TableGrid instanced replacing Standard Related Lists in a Standard Page Layout](https://raw.github.com/Up2Go/TableGrid/master/resources/tableGrid_embedded.png)
+> ![Two instances of Visualforce TableGrid, one read-only and one editable version.](https://raw.github.com/Up2Go/TableGrid/master/resources/grid.png)
  
 
 ## Installation ##
@@ -47,6 +47,8 @@ This component can be used as an advanced, highly configurable (by developer and
 ### TableGrid embedded into Standard Page Layouts
 
 This  snippet is taken from the sample page
+
+> ![Two TableGrid instanced replacing Standard Related Lists in a Standard Page Layout](https://raw.github.com/Up2Go/TableGrid/master/resources/tableGrid_embedded.png)
 
 		<apex:page standardController="Account"> 
 		    <apex:form>
