@@ -1,6 +1,6 @@
 # Visualforce TableGrid #
 
-[Installation](#installation) | [Usage](#usage) | [ToDos](#todo) | [Third Party Code](#thirdparty) | [Licence](#license) | 
+[Installation](#-installation) | [Usage](#-usage) | [ToDos](#-todo) | [Third Party Code](#-thirdparty) | [Licence](#-license) | 
 
 TableGrid is a free, open-source Force.com library, that provides a users and developers with a *highly customizable, native-looking, sortable, filterable, editable* Visualforce Grid component. 
 This component can be used as an advanced, highly configurable (by developer and user) replacement of <apex:pageBlockTable>s and Standard Related Lists.
