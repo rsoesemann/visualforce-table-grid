@@ -1,6 +1,6 @@
 # Visualforce TableGrid #
 
-[Installation](#-installation) | [Usage](#-usage) | [ToDos](#-todo) | [Third Party Code](#-thirdparty) | [Licence](#-license) | 
+[Installation](#-installation) | [Usage](#-usage-examples) | [Know Issues/Todos](#-room-for-improvement) | [Third Party Code](#-third-party-code) | [FAQ](#faq) | [Licence](#visualforce-tablegrid-license) | 
 
 TableGrid is a free, open-source Force.com library, that provides a users and developers with a *highly customizable, native-looking, sortable, filterable, editable* Visualforce Grid component. 
 This component can be used as an advanced, highly configurable (by developer and user) replacement of <apex:pageBlockTable>s and Standard Related Lists.
@@ -18,7 +18,7 @@ This component can be used as an advanced, highly configurable (by developer and
 - Pagination with cutomizable page size
 - Filter Builder UI to let users filter records
 - Field Selection UI to let users customize columns 
-- Each user's customizations can be auto-saved in a "database-cookie"
+- Each user`s customizations can be auto-saved in a "database-cookie"
 
 
 ## <a id="installation"></a> Installation ##
@@ -27,12 +27,12 @@ This component can be used as an advanced, highly configurable (by developer and
 
 
 ## <a id="usage"></a> Usage Examples ##
-Please see 'components/tableGrid.component' for a detailed description of all attributes. The following examples should give 
+Please see `components/tableGrid.component` for a detailed description of all attributes. The following examples should give 
 you enough information to get started.
 
 ### TableGrid in a standalone Visualforce page
 
-This  snippet is taken from the sample page 'pages/tableGridStandalone.page'.
+This  snippet is taken from the sample page `pages/tableGridStandalone.page`.
 
 > ![TableGrid in List mode with Customizations turned on](https://raw.github.com/Up2Go/TableGrid/master/resources/customizable.png)
  
@@ -56,7 +56,7 @@ This  snippet is taken from the sample page 'pages/tableGridStandalone.page'.
 
 ### TableGrid embedded into Standard Page Layouts
 
-This  snippet is taken from the sample page 'pages/tableGridRelatedList.page' and 'pages/tableGridEmbedded.page'
+This  snippet is taken from the sample page `pages/tableGridRelatedList.page` and `pages/tableGridEmbedded.page`
 
 > ![Two TableGrid instanced replacing Standard Related Lists in a Standard Page Layout](https://raw.github.com/Up2Go/TableGrid/master/resources/tableGrid_embedded.png)
 
@@ -67,7 +67,7 @@ This  snippet is taken from the sample page 'pages/tableGridRelatedList.page' an
 		        <!-- Advanced Related list -->
 		        <c:tableGrid type="Contact" 
 		                     fields="Id, Name, Email, Birthdate" 
-		                     filter="AccountId = '{!Account.Id}'"
+		                     filter="AccountId = `{!Account.Id}`"
 		                     title="Contacts" 
 		                     gridPageId="readonly"
 		                     pageSize="5"
@@ -76,7 +76,7 @@ This  snippet is taken from the sample page 'pages/tableGridRelatedList.page' an
 		        <!-- Editable grid with customization turned on -->        
 		        <c:tableGrid type="Opportunity" 
 		                     fields="Name,StageName,Amount,CloseDate" 
-		                     filter="AccountId = '{!Account.Id}'"
+		                     filter="AccountId = `{!Account.Id}`"
 		                     sortBy="Name" 
 		                     sortDescending="true"
 		                     title="Opportunities" 
@@ -93,7 +93,7 @@ This  snippet is taken from the sample page 'pages/tableGridRelatedList.page' an
 
 ### TableGrid as an Advanced Lookup Popup
 
-This  snippet is taken from the sample page 'pages/tableGridAdvancedLookup.page'.
+This  snippet is taken from the sample page `pages/tableGridAdvancedLookup.page`.
 
 > ![TableGrid as an Advanced Lookup Popup](https://raw.github.com/Up2Go/TableGrid/master/resources/advancedLookup.png)
 
@@ -109,16 +109,21 @@ This  snippet is taken from the sample page 'pages/tableGridAdvancedLookup.page'
     
  
 
-## <a id="todo"></a> Room for Improvement ##
+## Room for Improvement ##
 - *Performance* (loading, partial rerender, select rows,...)
   - Reduce Viewstate
   - Replace ActionSupport with Javascript Remoting
   - Reduce Markup-Size
-- Allow to filter for read-only fields in WhereClauseBuilder without loosing the context-sensitive input field.
-- Fix random bugs when selecting and then saving/deleting
+- Allow for more than 10.000 result records: For pagination I am using the `StandardSetController`, which seems to have this restriction.
+- Allow to filter also for read-only fields in FilterBuilder without loosing the context-sensitive input fields.
+- Optionally replace pagination with Infinite Scroll.
+- Solve Bugs:
+  - FilterBuilder does not clear value field when switching field
+  - Save/Delete selected buttons are not activated when checkbox is selected
+  - ...
 
 
-## <a id="thirdparty"></a> Third-party Code ##
+## Third-party Code ##
 
 This library makes use of a number of third-party components:
 
@@ -128,7 +133,7 @@ This library makes use of a number of third-party components:
 - [Apex-Select-Option-Sorting](https://github.com/abhinavguptas/Apex-Select-Option-Sorting), an Apex sort utility class for SelectOptions
 
 
-## <a id="faq"></a>FAQ ##
+## FAQ ##
 
 Q: Why did we create this library?  
 A: HTML5 developers need a robust set of components to build mobile apps. This library provides a way to share the lessons learned creating Contact Viewer and provide re-usable components that can be plugged into Visualforce. 
@@ -146,7 +151,7 @@ Q: How is this framework supported?
 A: This is unsupported software from the Force.com development community. We will make our best efforts to fix bugs and add enhancements. We also encourage the community to fork the code and make independent changes.
 
 
-## <a id="license"></a>Visualforce TableGrid License ##
+## Visualforce TableGrid License ##
 
 Copyright (c) 2012, Up2Go International, LLC All rights reserved.
 
