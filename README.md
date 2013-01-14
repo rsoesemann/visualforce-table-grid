@@ -1,6 +1,6 @@
 # Visualforce TableGrid #
 
-[Installation](#-installation) | [Usage](#-usage-examples) | [Know Issues/Todos](#-room-for-improvement) | [Third Party Code](#-third-party-code) | [FAQ](#faq) | [Licence](#visualforce-tablegrid-license) | 
+[Installation](#-installation) | [Usage](#-usage-examples) | [Know Issues/Todos](#room-for-improvement) | [Third Party Code](#third-party-code) | [FAQ](#faq) | [Licence](#visualforce-tablegrid-license) | 
 
 TableGrid is a free, open-source Force.com library, that provides a users and developers with a *highly customizable, native-looking, sortable, filterable, editable* Visualforce Grid component. 
 This component can be used as an advanced, highly configurable (by developer and user) replacement of <apex:pageBlockTable>s and Standard Related Lists.
@@ -11,7 +11,7 @@ This component can be used as an advanced, highly configurable (by developer and
 ## Features: ##
 - Native Salesforce.com Look And Feel
 - Works as Standalone table grid or as an embedded replacement for Related List
-- Can replace Standard Lookup popups with <c:advancedLookup>
+- Works as replacement for Standard Lookup popups with <c:advancedLookup>
 - Works for Standard and Custom SObjects
 - Spreadsheet-like Cell-Editing
 - Delete Muliple records
@@ -32,9 +32,9 @@ you enough information to get started.
 
 ### TableGrid in a standalone Visualforce page
 
-This  snippet is taken from the sample page `pages/tableGridStandalone.page`.
-
 > ![TableGrid in List mode with Customizations turned on](https://raw.github.com/Up2Go/TableGrid/master/resources/customizable.png)
+
+This  snippet is taken from the sample page `pages/tableGridStandalone.page`.
  
         <apex:page showHeader="false" sidebar="false"> 
         	<apex:form >
@@ -56,9 +56,9 @@ This  snippet is taken from the sample page `pages/tableGridStandalone.page`.
 
 ### TableGrid embedded into Standard Page Layouts
 
-This  snippet is taken from the sample page `pages/tableGridRelatedList.page` and `pages/tableGridEmbedded.page`
-
 > ![Two TableGrid instanced replacing Standard Related Lists in a Standard Page Layout](https://raw.github.com/Up2Go/TableGrid/master/resources/tableGrid_embedded.png)
+
+This  snippet is taken from the sample page `pages/tableGridRelatedList.page` and `pages/tableGridEmbedded.page`
 
 		<apex:page standardController="Account"> 
 		    <apex:form>
@@ -93,9 +93,9 @@ This  snippet is taken from the sample page `pages/tableGridRelatedList.page` an
 
 ### TableGrid as an Advanced Lookup Popup
 
-This  snippet is taken from the sample page `pages/tableGridAdvancedLookup.page`.
-
 > ![TableGrid as an Advanced Lookup Popup](https://raw.github.com/Up2Go/TableGrid/master/resources/advancedLookup.png)
+
+This  snippet is taken from the sample page `pages/tableGridAdvancedLookup.page`.
 
 	<apex:page standardController="Contact">    
 	    <apex:form>
