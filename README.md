@@ -27,35 +27,41 @@ This component can be used as an advanced, highly configurable (by developer and
 
 
 ## <a id="usage"></a> Usage Examples ##
+Please see 'components/tableGrid.component' for a detailed description of all attributes. The following examples should give 
+you enough information to get started.
 
 ### TableGrid in a standalone Visualforce page
 
+This  snippet is taken from the sample page 'pages/tableGridStandalone.page'.
 
+> ![TableGrid in List mode with Customizations turned on](https://raw.github.com/Up2Go/TableGrid/master/resources/cutomizable.png)
+ 
         <apex:page showHeader="false" sidebar="false"> 
         	<apex:form >
         		...
-		    <c:tableGrid type="Account" 
-		                 title="Accounts (TableGrid temporarily customizable)"
-		                 fields="Name, Type, BillingCity, BillingState, BillingPostalCode, BillingCountry, Phone, Fax, AccountNumber, Website"
-		                 sortBy="Name" 
-		                 sortDescending="true"
-		                 gridPageId="customizeTemp"
-		                 mode="list"
-		                 customizeFields="true"
-		                 customizeFilter="true"
-		                 pageSize="10" />
-		     ...
+			    <c:tableGrid type="Opportunity" 
+		        			 title="Opportunities"
+		                     fields="Name,StageName,Amount,CloseDate" 
+		                     sortBy="Name" 
+		                     image="/img/icon/hands24.png"
+		                     sortDescending="true"
+		                     mode="list"
+		                     customizeFields="true"
+		                     customizeFilter="true"
+		                     pageSize="5" />   
+		    	 ...
+		   	</apex:form>
+		</apex:page>
          
 
 ### TableGrid embedded into Standard Page Layouts
 
-This  snippet is taken from the sample page
+This  snippet is taken from the sample page 'pages/tableGridRelatedList.page' and 'pages/tableGridEmbedded.page'
 
 > ![Two TableGrid instanced replacing Standard Related Lists in a Standard Page Layout](https://raw.github.com/Up2Go/TableGrid/master/resources/tableGrid_embedded.png)
 
 		<apex:page standardController="Account"> 
 		    <apex:form>
-		        
 		        ...
 		        
 		        <!-- Advanced Related list -->
@@ -78,14 +84,18 @@ This  snippet is taken from the sample page
 		                     customizeFields="true"
 		                     customizeFilter="true"
 		                     pageSize="5"
-		                     mode="edit"/>     
-	                                     
-
+		                     mode="edit"/>  
+		                        
+		    	 ...
+		   	</apex:form>
+		</apex:page>
 
 
 ### TableGrid as an Advanced Lookup Popup
 
-This  snippet is taken from the sample page
+This  snippet is taken from the sample page 'pages/tableGridAdvancedLookup.page'.
+
+> ![TableGrid as an Advanced Lookup Popup](https://raw.github.com/Up2Go/TableGrid/master/resources/advancedLookup.png)
 
 	<apex:page standardController="Contact">    
 	    <apex:form>
@@ -97,7 +107,6 @@ This  snippet is taken from the sample page
 		</apex:form>
 	</apex:page>
     
-> ![TableGrid as an Advanced Lookup Popup](https://raw.github.com/Up2Go/TableGrid/master/resources/advancedLookup.png)
  
 
 ## <a id="todo"></a> Room for Improvement ##
