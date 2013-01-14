@@ -34,7 +34,7 @@ you enough information to get started.
 
 This  snippet is taken from the sample page 'pages/tableGridStandalone.page'.
 
-> ![TableGrid in List mode with Customizations turned on](https://raw.github.com/Up2Go/TableGrid/master/resources/cutomizable.png)
+> ![TableGrid in List mode with Customizations turned on](https://raw.github.com/Up2Go/TableGrid/master/resources/customizable.png)
  
         <apex:page showHeader="false" sidebar="false"> 
         	<apex:form >
