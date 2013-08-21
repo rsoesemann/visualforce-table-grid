@@ -133,24 +133,6 @@ This library makes use of a number of third-party components:
 - [Apex-Select-Option-Sorting](https://github.com/abhinavguptas/Apex-Select-Option-Sorting), an Apex sort utility class for SelectOptions
 
 
-## FAQ ##
-
-Q: Why did we create this library?  
-A: HTML5 developers need a robust set of components to build mobile apps. This library provides a way to share the lessons learned creating Contact Viewer and provide re-usable components that can be plugged into Visualforce. 
-
-Q: Can I customize the components?  
-A: Absolutely! Fork it, extend it, improve it. And please share your experience.
-
-Q: Where should I provide feedback and bug reports?  
-A: We’re going to use GitHub for all collaboration.
-
-Q: Can I distribute this in my app?  
-A: tbd
-
-Q: How is this framework supported?  
-A: This is unsupported software from the Force.com development community. We will make our best efforts to fix bugs and add enhancements. We also encourage the community to fork the code and make independent changes.
-
-
 ## Visualforce TableGrid License ##
 
 Copyright (C) 2013 UP2GO International LLC
