@@ -1,5 +1,7 @@
 # Visualforce TableGrid #
 
+PLEASE STAY TUNED - DECISION TO MAKE THIS AVAILABLE ON GITHUB CURRENTLY PENDING
+
 [Installation](#-installation) | [Usage](#-usage-examples) | [Know Issues/Todos](#room-for-improvement) | [Third Party Code](#third-party-code) | [FAQ](#faq) | [Licence](#visualforce-tablegrid-license) | 
 
 TableGrid is a free, open-source Force.com library, that provides a users and developers with a *highly customizable, native-looking, sortable, filterable, editable* Visualforce Grid component. 
