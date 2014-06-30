@@ -21,7 +21,7 @@ This component can be used as an advanced, highly configurable (by developer and
 - Each user`s customizations can be auto-saved in a "database-cookie"
 
 
-## <a id="installation"></a> Installation / Download ##
+## <a id="installation"></a> Installation/Download ##
 
 **[Directly deploy to your Salesforce org](https://githubsfdeploy.herokuapp.com/app/githubdeploy/Up2Go/visualforce-table-grid)**
 
