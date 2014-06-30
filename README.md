@@ -114,7 +114,7 @@ This  snippet is taken from the sample page `pages/tableGridAdvancedLookup.page`
     
  
 
-## Know Issues/Todos ##
+## Known Issues/Todos ##
 - *Performance* (loading, partial rerender, select rows,...)
   - Reduce Viewstate
   - Replace ActionSupport with Javascript Remoting
