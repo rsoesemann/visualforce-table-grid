@@ -27,7 +27,7 @@ This component can be used as an advanced, highly configurable (by developer and
 
 or
 
-1. Grab the source code: `git clone https://github.com/Up2Go/TableGrid.git`
+1. Grab the source code: `git clone https://github.com/Up2Go/visualforce-table-grid.git`
 2. Deploy the Force.com metadata under the src folder to your destination org. You can deploy that using [Force.com Migration Tool](http://wiki.developerforce.com/index.php/Force.com_Migration_Tool) #or by using [Force.com IDE](http://wiki.developerforce.com/index.php/Force.com_IDE)
 
 
