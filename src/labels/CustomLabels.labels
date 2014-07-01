@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
+    <labels>
+        <fullName>U2G_2Table_PaginationFirstLinkLabel</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>UP2GO 2Table Pagination First Link Label</shortDescription>
+        <value>First</value>
+    </labels>
+    <labels>
+        <fullName>U2G_2Table_PaginationLastLinkLabel</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>UP2GO 2Table Pagination Last Link Label</shortDescription>
+        <value>Last</value>
+    </labels>
+    <labels>
+        <fullName>U2G_2Table_PaginationNextLinkLabel</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>UP2GO 2Table Pagination Next Link Label</shortDescription>
+        <value>Next</value>
+    </labels>
+    <labels>
+        <fullName>U2G_2Table_PaginationPageSizeLabel</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>UP2GO 2Table Pagination Page Size Label</shortDescription>
+        <value>Page Size:</value>
+    </labels>
+    <labels>
+        <fullName>U2G_2Table_PaginationPreviousLinkLabel</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>UP2GO 2Table Pagination Previous Link Label</shortDescription>
+        <value>Previous</value>
+    </labels>
+    <labels>
+        <fullName>U2G_2Table_PaginationStatusline</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>UP2GO 2Table Pagination Statusline</shortDescription>
+        <value>Page {0} of {1} - {2} total results</value>
+    </labels>
+    <labels>
+        <fullName>U2G_2Table_SettingsDisplayedFieldsLabel</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>UP2GO 2Table Settings Displayed Fields Label</shortDescription>
+        <value>Displayed Fields</value>
+    </labels>
+</CustomLabels>

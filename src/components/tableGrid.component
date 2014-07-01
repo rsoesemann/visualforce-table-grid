@@ -1,0 +1,382 @@
+<!-- 
+/*
+Copyright (c) 2013 Up2Go International LLC
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:
+
+1. Redistributions of source code must retain the above copyright
+   notice, this list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright
+   notice, this list of conditions and the following disclaimer in the
+   documentation and/or other materials provided with the distribution.
+3. The name of the author may not be used to endorse or promote products 
+   derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE AUTHOR "AS IS" AND ANY EXPRESS OR
+IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, 
+INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
+-->
+<!-- 
+/**
+ *	TableGrid component for reuse in Visualforce pages. For a given SObject, fields and filter criteria this 
+ *  component renders a page block table with Standard Salesforce.com look-and-feel with advanced functionality. 
+ */
+ -->
+<apex:component controller="TableGridController" allowDml="true">
+    <apex:attribute name="fields" assignTo="{!fieldsParam}" type="String" required="true" description="API field names to display as table rows" />
+    <apex:attribute name="type" assignTo="{!typeParam}" type="String" required="true" description="SObject API name" />
+    <apex:attribute name="filter" assignTo="{!filterParam}" type="String" required="false" description="Partial SOQL filter to restrict the displayed record. Gets added as a WHERE clause" />
+    <apex:attribute name="sortBy" assignTo="{!sortByParam}" type="String" default="Name" required="false" description="Field to ORDER BY" />
+    <apex:attribute name="sortDescending" assignTo="{!sortDescending}" type="Boolean" required="false" description="Sort records descending or ascending (default)." />
+    <apex:attribute name="pageSize" assignTo="{!pageSizeParam}" type="Integer" required="false" description="Default page size. Can be later changed by the user." />  
+    <apex:attribute name="mode" assignTo="{!modeParam}" type="String" required="false" default="edit" description="Display mode of the table. Options: list, edit, singleselect" />
+    <apex:attribute name="selectList" assignTo="{!selectListParam}" type="Set" required="false" description="" />
+    <apex:attribute name="blockOnSelect" type="String" required="false" default="buttons" description="Which part of the page (dom id should be blocked) during the selection is send to server." />
+    <apex:attribute name="title" type="String" required="false" description="Custom title" />
+    <apex:attribute name="image" type="String" required="false" description="Custom icon" />
+    <apex:attribute name="layout" type="String" required="false" description="Customize pageblock layout attribute" />
+    <apex:attribute name="customizeFields" type="Boolean" required="false" default="false" description="Show Panel to customize which fields will be displayed as columns." />
+    <apex:attribute name="customizeFilter" type="Boolean" required="false" default="false" description="Show Panel to let users add additional AND statements to the WHERE clause." />
+    <apex:attribute name="gridPageId" assignTo="{!gridPageId}" type="String" required="true" description="Unique name for this TableGrid instance to save settings per user and instance." />
+    <apex:attribute name="saveSettings" assignTo="{!saveSettings}" type="Boolean" required="false" default="false" description="Persist settings of a instance for the current user?" />  
+    <apex:attribute name="loadLabel" type="String" required="false" default="Loading..." description="Custom load label while asynchronously loading table." />
+    <apex:attribute name="searchFilter" assignTo="{!lookupFieldValue}" type="String" required="false" description="Pass in Record.Name to implement advanced lookup functionality (used internally)." /> 
+    <apex:attribute name="customButtons" assignTo="{!customButtons}" type="ObjectListAction[]" required="false" description="" />
+    
+    <!-- Load custom css stlyes -->
+    <apex:stylesheet value="{!$Resource.tableGrid_css}" />
+  
+  	<!-- Component constructor workaround as standard constructor does not seem to work in components (proposed by Joel Dietz) -->
+    {!Init} 
+    
+    <!-- Uses rerender to render TableGrid only when rest of the page is loaded. Looks like faster loading ;-) -->
+    <apex:actionFunction name="renderOnLoad_{!gridPageId}" action="{!renderOnLoad}"  rerender="{!$Component.grid}" />
+    
+    <apex:outputPanel layout="block" id="grid">
+    
+        <!-- MESSAGE BOX -->
+        <apex:pageMessages id="pagemsgs" />
+            
+      	<!-- SHOW WHILE LOADING -->
+		<apex:pageBlock mode="{!layout}" title="{!IF(ISNULL(title), objectLabelPlural, title)}" rendered="{!NOT(isPageLoaded)}"> 
+			<div class="waitingSearchDiv" id="el_loading" style="background-color: #fbfbfb; height:100px;opacity:0.65;width:100%;position:relative;"> 
+				<div class="waitingHolder">
+				    <img class="waitingImage" src="/img/loading.gif" title="Please Wait..." />
+				    <apex:outputText value="{!loadLabel}" styleClass="waitingDescription" />
+				</div>
+			</div>
+		</apex:pageBlock>
+				
+		<!-- SHOW WHEN PAGE IS LOADED -->
+		<apex:pageBlock mode="{!layout}" title="{!IF(ISNULL(title), objectLabelPlural, title)}" rendered="{!isInitialized && isPageLoaded}"> 
+			
+			<!-- SETTINGS PANEL -->
+		   <apex:outputPanel layout="none" rendered="{!mode != 'singleselect'}">
+				<script type="text/javascript"> 
+					// Collapse Settings panel if mode not 'singleselect'
+					var settingPanel = document.getElementById("{!$Component.settings}");
+					twistSection(settingPanel.childNodes[0].childNodes[0]);
+				</script>
+			</apex:outputPanel>
+			
+         	<apex:pageBlockSection id="settings" collapsible="true" title="{!IF(customizeFields, 'Columns', '') & IF(customizeFields && customizeFilter, ' & ', '') & IF(customizeFilter, 'Filter', '')}" rendered="{!OR(customizeFields, customizeFilter)}" columns="1">
+			    <apex:panelGrid columns="{!IF(AND(customizeFields, customizeFilter), 2, 1)}" width="100%">
+			        <c:selectClauseBuilder soqlQuery="{!soqlQuery}" rendered="{!customizeFields}" parentToBlock="{!$Component.settings}" />
+			        <c:whereClauseBuilder soqlQuery="{!soqlQuery}" rendered="{!customizeFilter}" />
+			    </apex:panelGrid>
+			
+			    <apex:outputPanel layout="block" style="text-align:center; width:100%">
+			        <br/>
+			        <apex:commandLink styleClass="btn" style="text-decoration:none" id="submitButton" value="{!IF(currentMode=='singleselect', 'Search', 'Apply')}" action="{!doRefresh}" immediate="true"  rerender="{!$Component.grid}" onClick="blockNode('{!$Component.grid}');" onComplete="unblockNode('{!$Component.grid}'); resizeIFrames();" />
+			        &nbsp;&nbsp;&nbsp;&nbsp;
+			        <apex:commandLink styleClass="btn" style="text-decoration:none" id="resetSettingsButton" value="Reset" action="{!doLoadDefaults}" immediate="true"  rerender="{!$Component.grid}" onClick="blockNode('{!$Component.grid}');" onComplete="unblockNode('{!$Component.grid}'); resizeIFrames();" rendered="{!currentMode != 'singleselect'}" />
+			        <br/>
+			        <br/>
+			    </apex:outputPanel>  
+			</apex:pageBlockSection>  
+         
+			<!-- BUTTON BAR -->
+			<apex:pageBlockButtons location="top">
+			    <apex:outputPanel layout="block" id="buttons"> 
+			        <!-- NEW -->
+			        <apex:outputPanel layout="none" rendered="{!OR(currentMode=='list', currentMode=='edit')}">
+			            <apex:commandLink value="New" styleClass="btn" style="text-decoration: none" target="_top" action="{!doEditNew}">
+			                <apex:param value="{!$CurrentPage.URL}" assignTo="{!parentFrameUrl}" />
+			            </apex:commandLink>
+			        </apex:outputPanel>
+			        
+			        <!-- SAVE -->
+			        <apex:outputPanel layout="none" rendered="{!currentMode=='edit'}">
+			            <apex:commandButton value="Save selected" action="{!doSaveSelected}" disabled="{!noneSelected}" rerender="{!$Component.grid}" onClick="blockNode('{!$Component.grid}');" onComplete="unblockNode('{!$Component.grid}');"/>
+			        </apex:outputPanel>
+			        
+			        <!--  DELETE, RESET, SWITCH MODE -->
+			        <apex:outputPanel layout="none" rendered="{!OR(currentMode=='list', currentMode=='edit')}">
+			            <apex:commandButton value="Delete selected" action="{!doDeleteSelected}" disabled="{!noneSelected}" rerender="{!$Component.grid}" onClick="blockNode('{!$Component.grid}');" onComplete="unblockNode('{!$Component.grid}');"/>
+			            <apex:commandButton value="{!IF(currentMode=='list','Refresh', 'Reset changes')}" action="{!doRefresh}" immediate="true" rerender="{!$Component.grid}" onClick="blockNode('{!$Component.grid}');" onComplete="unblockNode('{!$Component.grid}');"/>
+			            <apex:commandLink styleClass="btn" style="text-decoration: none" action="{!doChangeMode}" value="{!IF(currentMode=='list','Edit', 'List')} mode" rerender="{!$Component.grid}" onClick="blockNode('{!$Component.grid}');" onComplete="unblockNode('{!$Component.grid}');">
+			                <apex:param value="{!IF(currentMode=='edit', 'list', 'edit')}" assignTo="{!currentMode}" />
+			            </apex:commandLink>
+			        </apex:outputPanel>
+			        
+			    </apex:outputPanel>
+			</apex:pageBlockButtons>
+         
+			<!-- TABLE -->
+			<apex:pageBlockTable value="{!rowManager.rows}" var="row" id="table" width="100%" columnClasses="dontWrap">
+			    <!-- CHECKBOXES -->
+			    <apex:column style="width:1px;" rendered="{!NOT(currentMode=='singleselect')}">
+			         <apex:facet name="header">
+			            <apex:inputCheckbox id="allSelected" value="{!allSelected}">
+			                <apex:actionSupport event="onclick" action="{!doHandleSelection}" rerender="buttons" onSubmit="toggleAll(this); blockNode('{!blockOnSelect}');" onBeforeDOMUpdate="unblockNode('{!blockOnSelect}');" />
+			            </apex:inputCheckbox>
+			        </apex:facet>
+			         
+			        <apex:inputCheckbox value="{!row.isSelected}" styleClass="rowSelector">
+			            <apex:actionSupport event="onclick" action="{!doHandleSelection}" rerender="buttons" onSubmit="blockNode('{!blockOnSelect}');" onBeforeDOMUpdate="unblockNode('{!blockOnSelect}');" />
+			        </apex:inputCheckbox>
+			    </apex:column>
+			    
+			    <!-- ACTIONS -->
+			    <apex:column headerValue="Action" styleClass="actionColumn">
+			        <apex:outputPanel layout="none" rendered="{!NOT(currentMode=='singleselect')}">
+			            <apex:outputLink styleClass="actionLink" value="{!URLFOR($Action[soqlQuery.objectName].Edit, row.delegate.Id)}" target="_parent">Edit</apex:outputLink>&nbsp;|&nbsp;<apex:outputLink styleClass="actionLink" value="{!URLFOR($Action[soqlQuery.objectName].Delete, row.delegate.Id, [retURL=currentPageUrl])}" target="_parent">Del</apex:outputLink>
+			        </apex:outputPanel>
+			    </apex:column>
+			    
+			    <!-- FIELD COLUMNS -->
+			    <apex:repeat value="{!rowManager.soqlQuery.fieldsList}" var="fieldName">
+			        <apex:column styleClass="rowCell_{!fieldName} dontWrap">
+			            <apex:facet name="header"> 
+			                <apex:commandLink action="{!doSort}" value="{!$ObjectType[soqlQuery.objectName].fields[fieldName].Label} {!IF(soqlQuery.sortFieldName==fieldName,IF(soqlQuery.sortDescending,'▼','▲'),'')}" rerender="{!$Component.grid}" onClick="blockNode('{!$Component.grid}');" onComplete="unblockNode('{!$Component.grid}');">
+			                    <apex:param name="sortFieldName" value="{!fieldName}" assignTo="{!soqlQuery.sortFieldName}" />
+			                </apex:commandLink>
+			            </apex:facet>  
+			            
+			            <!-- EDIT MODE -->                    
+			            <apex:outputPanel rendered="{!currentMode=='edit'}">
+			                <apex:commandLink id="pasteButtonLink"
+			                                  styleClass="hideMe pasteButton_{!fieldName}" 
+			                                  style="margin-right:8px;" 
+			                                  rendered="{!$ObjectType[soqlQuery.objectName].fields[fieldName].Updateable}" 
+			                                  onClick="pasteVertically('{!$Component.pasteButtonLink}', '{!fieldName}', '{!$ObjectType[soqlQuery.objectName].fields[fieldName].Type}'); return false;">
+			                    <apex:image styleClass="pasteImg" title="Paste field value to all selected rows (marked red)" url="{!URLFOR($Resource.pasteIcon_png)}" />
+			                </apex:commandLink>
+			                <!-- Render input field if current field is updateable by current user -->
+			                <apex:inputField styleClass="inputField_{!fieldName}" value="{!row.delegate[fieldName]}" rendered="{!$ObjectType[soqlQuery.objectName].fields[fieldName].Updateable}" />
+			                
+			                <!-- Else render link to view page -->
+			                <apex:outputPanel styleClass="dontWrap" rendered="{!NOT($ObjectType[soqlQuery.objectName].fields[fieldName].Updateable)}">
+			                    <apex:outputLink value="/{!row.delegate.Id}" target="_parent"><apex:outputField value="{!row.delegate[fieldName]}" /></apex:outputLink>
+			                </apex:outputPanel>
+			            </apex:outputPanel>
+			            
+			            <!-- READONLY MODE -->
+			            <apex:outputPanel rendered="{!NOT(currentMode=='edit') && NOT(currentMode=='singleselect')}">
+			                <apex:variable var="isNameOrIdField" value="{!LOWER(fieldName) == 'name' || LOWER(fieldName) == 'id'}" />
+			                
+			                <apex:outputField value="{!row.delegate[fieldName]}" rendered="{!NOT(isNameOrIdField)}" />
+			                <apex:outputLink value="/{!row.delegate.Id}" target="_parent" rendered="{!isNameOrIdField}"><apex:outputField value="{!row.delegate[fieldName]}" /></apex:outputLink>
+			            </apex:outputPanel>
+			            
+			            <!-- SINGLESELECT MODE -->
+			            <apex:outputPanel rendered="{!currentMode=='singleselect'}">
+			            	<a href="#" onClick="top.window.opener.lookupPick('{!$CurrentPage.parameters.lkfm}','{!$CurrentPage.parameters.lknm}_lkid','{!$CurrentPage.parameters.lknm}','','{!row.delegate.Id}','{!row.delegate['Name']}','null','');">
+			            	{!row.delegate[fieldName]}
+			            	</a>
+			            </apex:outputPanel>
+			        </apex:column> 
+			    </apex:repeat> 
+			    
+			    <!-- PAGINATION FOOTER -->
+			    <apex:facet name="footer">
+				    <apex:outputPanel id="pagination" styleClass="wholeWidth">
+				        
+				        <apex:outputPanel styleClass="evenlySpaced">  
+				            <!-- Page 2 of 21 -  3001 total results  --> 
+				            <apex:outputText value="{!$Label.U2G_2Table_PaginationStatusline}">
+				                <apex:param value="{!rowManager.pageNumber}"/>
+				                <apex:param value="{!rowManager.pageCount}"/>
+				                <apex:param value="{!rowManager.recordCount}"/>
+				            </apex:outputText>
+				            &nbsp;
+				            <apex:outputText value="(Filtered)" rendered="{!rowManager.soqlQuery.filterStatements.size > 0}" style="color:#900;" />
+				        </apex:outputPanel> 
+				        
+				        <apex:outputPanel styleClass="evenlySpaced"> 
+				            <apex:outputText value="{!$Label.U2G_2Table_PaginationFirstLinkLabel}" 
+				                rendered="{!NOT(rowManager.hasPreviousPage)}"
+				            />
+				            <apex:commandLink value="{!$Label.U2G_2Table_PaginationFirstLinkLabel}" 
+				                rendered="{!rowManager.hasPreviousPage}"
+				                action="{!rowManager.loadFirstPage}"
+				                rerender="{!$Component.grid}"
+				                onClick="blockNode('{!$Component.grid}');" 
+				                onComplete="unblockNode('{!$Component.grid}'); resizeIFrames();"
+				            />
+				            &nbsp;&nbsp; 
+				    
+				            <apex:outputText value="{!$Label.U2G_2Table_PaginationPreviousLinkLabel}" 
+				                rendered="{!NOT(rowManager.hasPreviousPage)}"
+				            />
+				            <apex:commandLink value="{!$Label.U2G_2Table_PaginationPreviousLinkLabel}" 
+				                rendered="{!rowManager.hasPreviousPage}"
+				                action="{!rowManager.loadPreviousPage}"
+				                rerender="{!$Component.grid}"
+				                onClick="blockNode('{!$Component.grid}');" 
+				                onComplete="unblockNode('{!$Component.grid}'); resizeIFrames();"
+				            />
+				            &nbsp;&nbsp;
+				    
+				            <apex:repeat value="{!rowManager.previousSkipPageNumbers}" var="skipPageNumber">
+				                <apex:outputPanel >
+				                    <apex:commandLink value="{!skipPageNumber}" action="{!rowManager.skipToPage}" rerender="{!$Component.grid}" onClick="blockNode('{!$Component.grid}');" onComplete="unblockNode('{!$Component.grid}'); resizeIFrames();">
+				                        <apex:param name="pageNumber" id="pageNumber" value="{!skipPageNumber}" assignto="{!rowManager.pageNumber}" />
+				                    </apex:commandLink>
+				                </apex:outputPanel>
+				                &nbsp;&nbsp;
+				            </apex:repeat> 
+				            
+				            <apex:outputText style="text-decoration:none; font-weight:bold; background-color: #E3F3FF" value="{!rowManager.pageNumber}"/>
+				            &nbsp;&nbsp;
+				            
+				            <apex:repeat value="{!rowManager.nextSkipPageNumbers}" var="skipPageNumber">
+				                <apex:outputPanel >
+				                    <apex:commandLink value="{!skipPageNumber}" action="{!rowManager.skipToPage}" rerender="{!$Component.grid}"  onClick="blockNode('{!$Component.grid}');" onComplete="unblockNode('{!$Component.grid}'); resizeIFrames();">
+				                        <apex:param name="pageNumber" id="pageNumber" value="{!skipPageNumber}" assignto="{!rowManager.pageNumber}" />
+				                    </apex:commandLink>
+				                </apex:outputPanel>
+				                &nbsp;&nbsp;
+				            </apex:repeat>
+				    
+				            <!-- NEXT                                       -->
+				            <apex:outputText value="{!$Label.U2G_2Table_PaginationNextLinkLabel}" 
+				                rendered="{!NOT(rowManager.hasNextPage)}"
+				            />
+				            <apex:commandLink value="{!$Label.U2G_2Table_PaginationNextLinkLabel}" 
+				                rendered="{!rowManager.hasNextPage}"
+				                action="{!rowManager.loadNextPage}" 
+				                rerender="{!$Component.grid}"
+				                onClick="blockNode('{!$Component.grid}');" 
+				                onComplete="unblockNode('{!$Component.grid}'); resizeIFrames();"
+				            />
+				            &nbsp;&nbsp;
+				    
+				            <apex:outputText value="{!$Label.U2G_2Table_PaginationLastLinkLabel}" 
+				                rendered="{!NOT(rowManager.hasNextPage)}"
+				            />
+				            <apex:commandLink value="{!$Label.U2G_2Table_PaginationLastLinkLabel}" 
+				                rendered="{!rowManager.hasNextPage}"
+				                action="{!rowManager.loadLastPage}"   
+				                rerender="{!$Component.grid}"
+				                onClick="blockNode('{!$Component.grid}');" 
+				                onComplete="unblockNode('{!$Component.grid}'); resizeIFrames();"
+				            /> 
+				        </apex:outputPanel>
+				        
+				        <apex:outputPanel styleClass="evenlySpaced"> 
+				        
+				            <apex:outputText value="{!$Label.U2G_2Table_PaginationPageSizeLabel}" />&nbsp;
+				            <apex:selectList value="{!rowManager.pageSize}" size="1">
+				                <apex:selectOption itemValue="5" itemLabel="5" />   
+				                <apex:selectOption itemValue="10" itemLabel="10" />
+				                <apex:selectOption itemValue="25" itemLabel="25" />
+				                <apex:selectOption itemValue="50" itemLabel="50" />
+				                <!-- Reduced that to Max 50 as Doug in 2Forecast with 2x instrances ran into Viewstate size errors -->
+				                
+				                <apex:actionSupport event="onchange" action="{!doRefresh}" rerender="{!$Component.grid}" onSubmit="blockNode('{!$Component.grid}');" onBeforeDOMUpdate="unblockNode('{!$Component.grid}');" oncomplete="resizeIFrames();"  /> 
+				            </apex:selectList>
+				            
+				        </apex:outputPanel>
+				    </apex:outputPanel>
+			    </apex:facet> 
+			</apex:pageBlockTable> 
+        </apex:pageBlock>
+        
+	    <!-- Javascript code that need to be called AFTER grid is (re)loaded -->
+        <script type="text/javascript">
+            $j = jQuery.noConflict(); 
+            
+            // Temporary fix for http://stackoverflow.com/questions/7825448/webkit-issues-with-event-layerx-and-event-layery
+            $j.event.props = $j.event.props.join('|').replace('layerX|layerY|', '').split('|');
+
+            // Bind onclick handler to mark row div as selected when checkbox ticked
+            $j('.rowSelector').click(function(e) {
+                $j(this).parents('.dataRow').toggleClass('isSelected'); 
+            });
+          
+            // Bind onchange handler to inputfields to css-highlight changed fields
+            $j('*[class^="inputField"]').change(function(e) {
+                $j(this).not('.error').parents('.dataCell').toggleClass('highlightChangedField');
+            });
+        	
+        	// Mark row div as selected when checkbox ticked
+            $j('.rowSelector:checked').parents('.dataRow').addClass('isSelected');
+        
+            // Fade out page messages after 3 seconds or on click
+            setTimeout(function() { $j('div.message').fadeOut('slow'); }, 10000);
+            $j('div.message').click(function(e) {
+                $j(this).fadeOut('slow');
+            });
+         
+            // Bind event handlers to each field to show paste-down button and markers
+            <apex:repeat value="{!rowManager.soqlQuery.fieldsList}" var="fieldName">
+                <apex:outputPanel layout="none" rendered="{!AND(NOT($ObjectType[soqlQuery.objectName].fields[fieldName].Unique), $ObjectType[soqlQuery.objectName].fields[fieldName].Updateable)}">
+                    $j('.rowCell_{!fieldName}').hover(function(e) {
+                        $j(this).find('.pasteButton_{!fieldName}').toggleClass('hideMe');
+                    });
+                    
+                    $j('.pasteButton_{!fieldName}').hover(function(e) {   
+                        $j('.isSelected').find('.rowCell_{!fieldName}').toggleClass('highlightPasteField');
+                    });
+                </apex:outputPanel>
+            </apex:repeat>
+            
+            collapseSections();
+        </script>
+        
+        <!-- Force empty page block title if title attribute intentionally was left blank -->
+        <apex:outputPanel layout="none" rendered="{!title==''}">
+            <script type="text/javascript">
+               $j = jQuery.noConflict(); 
+               $j(document.getElementById("{!$Component.grid}")).find('div.pbHeader').hide();
+            </script>
+        </apex:outputPanel>
+        
+        <!-- Add custom icon -->
+        <apex:outputPanel layout="none" rendered="{!NOT(ISNULL(image))}">
+            <script type="text/javascript"> 
+               // Add Image to Page Block Table
+               var image = $j('<img src="{!image}" class="relatedListIcon" style="display:inline" height="24" width="24" />');
+               var title = $j(document.getElementById("{!$Component.grid}")).find('.pbTitle');
+               $j(image).prependTo(title);
+           </script>
+        </apex:outputPanel>
+
+    </apex:outputPanel> <!-- ID=GRID -->
+    <!-- Add external Javascript libs -->            
+    <apex:includeScript value="{!$Resource.jquery_min_js}" /> 
+    <apex:includeScript value="{!$Resource.jquery_blockUI_js}" />    
+    <apex:includeScript value="{!$Resource.tableGrid_js}" />
+    
+    <script type="text/javascript">
+	    $j = jQuery.noConflict();
+        
+        // Render table only when rest of document is loaded.
+        $j(document).ready(function() { 
+			renderOnLoad_{!gridPageId}();
+		});
+	</script>
+            
+</apex:component>

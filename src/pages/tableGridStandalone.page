@@ -1,0 +1,70 @@
+<!-- 
+/*
+Copyright (c) 2013 Up2Go International LLC
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:
+
+1. Redistributions of source code must retain the above copyright
+   notice, this list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright
+   notice, this list of conditions and the following disclaimer in the
+   documentation and/or other materials provided with the distribution.
+3. The name of the author may not be used to endorse or promote products 
+   derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE AUTHOR "AS IS" AND ANY EXPRESS OR
+IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, 
+INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
+-->
+
+<!-- 
+/**
+ *	This example page shows two standalone instances of TableGrid, a read-only and editable version. It also shows how to make 
+ *  a TableGrid's columns customizable and its filter criteria extendable.
+ *
+ *  By setting the saveSettings parameter to true, it shows how to store the state of TableGrids instance on a specific page and for a specific user inside the database.
+ */
+ -->
+ <apex:page showHeader="false" sidebar="false"> 
+    <apex:form >
+    
+    	<!-- Customizable TableGrid where changes are only saved until next reload -->
+        <c:tableGrid type="Account" 
+                     title="Accounts (In-Memory Customizations)"
+                     fields="Name, Type, BillingCity, BillingState, BillingPostalCode, BillingCountry, Phone, Fax, AccountNumber, Website"
+                     sortBy="Name" 
+                     sortDescending="true"
+                     gridPageId="customizeTemp"
+                     mode="list"
+                     image="/img/icon/people24.png"
+                     customizeFields="true"
+                     customizeFilter="true"
+                     pageSize="5" />
+          
+        <!-- Customizable TableGrid where changes are persisted in the database per user and gridPageId -->         
+        <c:tableGrid type="Opportunity" 
+        			 title="Opportunities (Persisted Customizations)"
+                     fields="Name,StageName,Amount,CloseDate" 
+                     sortBy="Name" 
+                     image="/img/icon/hands24.png"
+                     sortDescending="true"
+                     gridPageId="customizePersist"
+                     mode="list"
+                     customizeFields="true"
+                     customizeFilter="true"
+                     saveSettings="true"
+                     pageSize="5" />     
+
+    </apex:form>
+</apex:page>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ApexPage xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>24.0</apiVersion>
+    <description>This page show how to replace Standard related list in overriden page layouts by TableGrid instances without loosing the functionality of customizable layouts.</description>
+    <label>Table Grid Embedded in Standard Layout</label>
+</ApexPage>

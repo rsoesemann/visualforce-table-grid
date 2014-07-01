@@ -1,0 +1,92 @@
+<!-- 
+/*
+Copyright (c) 2013 Up2Go International LLC
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:
+
+1. Redistributions of source code must retain the above copyright
+   notice, this list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright
+   notice, this list of conditions and the following disclaimer in the
+   documentation and/or other materials provided with the distribution.
+3. The name of the author may not be used to endorse or promote products 
+   derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE AUTHOR "AS IS" AND ANY EXPRESS OR
+IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, 
+INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
+-->
+<!-- 
+/**
+ *	Sub-Component used by TableGrid to display a filter builder, to further restrict the number of records in the grid.
+ *  Component exchanges information with the parent controller by getting passed in a commonly shared SOQLQuery object.
+ */
+ -->
+<apex:component controller="WhereClauseBuilderCtrl">
+    <apex:attribute name="soqlQuery" assignTo="{!soqlQuery}" type="SoqlQuery" required="true" description="" /> 
+    
+    {!Init}  
+    
+    <apex:pageMessages id="pagemsgs" />
+
+    <apex:pageBlock id="filterBuilder" mode="maindetail"> 
+    
+		<apex:actionRegion >      
+	        <apex:pageBlockTable value="{!soqlQuery.filterStatements}" columns="4" var="statement"  width="100%">
+	             <apex:column >
+	                <apex:facet name="header">
+	                    <apex:selectList value="{!selectedField}" size="1" style="width:100%">
+	                        <apex:actionSupport event="onchange" rerender="filterBuilder" onSubmit="blockNode('{!$Component.filterBuilder}');" onBeforeDOMUpdate="unblockNode('{!$Component.filterBuilder}');" />
+	                        <apex:selectOptions value="{!filterableFields}"></apex:selectOptions> 
+	                    </apex:selectList> 
+	                </apex:facet> 
+	                
+	                <apex:outputText value="{!$ObjectType[soqlQuery.objectName].fields[statement.fieldName].Label}" /> 
+	             </apex:column>
+	    
+	            <apex:column >
+	                <apex:facet name="header">
+	                    <apex:selectList value="{!selectedOperator}" size="1" id="operatorOptions" style="width:100%">
+	                        <apex:selectOptions value="{!operatorOptions}"></apex:selectOptions>
+	                    </apex:selectList>
+	                </apex:facet>
+	                
+	                <apex:outputText value="{!statement.operator}" /> 
+	            </apex:column> 
+	             
+	            <apex:column >
+	                <apex:facet name="header">
+	               		<apex:inputField value="{!valueHolder[selectedField]}" />
+	                </apex:facet>
+	                
+	                <apex:outputField value="{!statement.valueHolder[statement.fieldName]}" />
+	            </apex:column>
+	            
+	            <apex:column headerClass="center" styleClass="center">
+	                <apex:facet name="header" >
+	                    <apex:commandLink value="Add" action="{!doAddStatement}" rerender="filterBuilder" onClick="blockNode('{!$Component.filterBuilder}');" onComplete="unblockNode('{!$Component.filterBuilder}');" />
+	                </apex:facet>
+	                <apex:commandLink value="Remove" action="{!doRemoveStatement}" rerender="filterBuilder" onClick="blockNode('{!$Component.filterBuilder}');" onComplete="unblockNode('{!$Component.filterBuilder}');">
+	                    <apex:param name="hashcodeToRemove" value="{!statement.hashcode}" assignTo="{!hashcodeToRemove}" /> 
+	                </apex:commandLink>
+	            </apex:column>            
+	         </apex:pageBlockTable>
+		</apex:actionRegion>
+     </apex:pageBlock>
+     
+	<apex:includeScript value="{!$Resource.jquery_min_js}" /> 
+    <apex:includeScript value="{!$Resource.jquery_blockUI_js}" />   
+    <apex:includeScript value="{!$Resource.tableGrid_js}" />
+    
+</apex:component>

@@ -1,0 +1,184 @@
+<!-- 
+/*
+Copyright (c) 2013 Up2Go International LLC
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:
+
+1. Redistributions of source code must retain the above copyright
+   notice, this list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright
+   notice, this list of conditions and the following disclaimer in the
+   documentation and/or other materials provided with the distribution.
+3. The name of the author may not be used to endorse or promote products 
+   derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE AUTHOR "AS IS" AND ANY EXPRESS OR
+IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, 
+INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
+-->
+<!-- 
+/**
+ *	Sub-Component used by TableGrid to display a field selector, to customize the columns that are displayed by the grid.
+ *  Component exchanges information with the parent controller by getting passed in a commonly shared SOQLQuery object.
+ */
+ -->
+<apex:component controller="SelectClauseBuilderCtrl">
+    <apex:attribute name="soqlQuery" assignTo="{!soqlQuery}" type="SoqlQuery" required="true" description="Object instance representing the SOQL query that results in this grids records. Passed to get modified inside this component." />
+    <apex:attribute name="parentToBlock" assignTo="{!idToBlock}" type="String" required="true" description="DOM Id to block with BlockUI to prevent the user to take actions that might fail, when this components actions are not done." />
+  
+    {!Init} 
+    
+    <apex:outputPanel id="multiselectPanel" layout="block" styleClass="duelingListBox">
+        <table class="layout" style="width:100%">
+            <tbody>
+                <tr>
+                    <td class="selectCell">
+                        <select id="{!$Component.multiselectPanel}:leftList" class="multilist" multiple="multiple" size="10" style="width: 100%;">
+                            <apex:repeat value="{!hiddenFields}" var="option">
+                                <option value="{!option.value}">{!option.label}</option>
+                            </apex:repeat>
+                      </select>
+                    </td>
+                    
+                    <td class="buttonCell">
+                        <apex:outputPanel layout="block" styleClass="text">
+                            <apex:commandLink rerender="fieldNames" onClick="blockNode('{!idToBlock}'); leftRight('{!$Component.multiselectPanel}:leftList', '{!$Component.multiselectPanel}:rightList'); updateSoqlQuery('{!$Component.multiselectPanel}:rightList', '{!$Component.fieldNames}');" onComplete="unblockNode('{!idToBlock}');">
+                              	<apex:image value="/s.gif" alt="Add" styleClass="rightArrowIcon" title="Add" />
+                            </apex:commandLink>
+                        </apex:outputPanel>
+                        <br/>
+                        <apex:outputPanel layout="block" styleClass="text">
+                            <apex:commandLink rerender="fieldNames" onClick="blockNode('{!idToBlock}'); leftRight('{!$Component.multiselectPanel}:rightList', '{!$Component.multiselectPanel}:leftList'); updateSoqlQuery('{!$Component.multiselectPanel}:rightList', '{!$Component.fieldNames}');" onComplete="unblockNode('{!idToBlock}');">
+                                <apex:image value="/s.gif" alt="Remove" styleClass="leftArrowIcon" title="Remove" />
+                            </apex:commandLink>
+                        </apex:outputPanel>
+                    </td>
+                    
+                    <td class="selectCell">
+                        <apex:outputLabel value="{!$Label.U2G_2Table_SettingsDisplayedFieldsLabel}" for="multiselectPanel:leftList" />
+                        <select id="{!$Component.multiselectPanel}:rightList" class="multilist" multiple="multiple" size="10" style="width:100%;">
+                            <apex:repeat value="{!displayedFields}" var="option">
+                                <option value="{!option.value}">{!option.label}</option>
+                            </apex:repeat>
+                        </select>
+                    </td>
+                    
+                    <td class="buttonCell">
+                        <apex:outputPanel layout="block" styleClass="text">
+                            <apex:commandLink rerender="fieldNames" onClick="blockNode('{!idToBlock}'); firstLast('{!$Component.multiselectPanel}:rightList', true); updateSoqlQuery('{!$Component.multiselectPanel}:rightList', '{!$Component.fieldNames}');" onComplete="unblockNode('{!idToBlock}');">
+                                <apex:image value="/s.gif" alt="Top" styleClass="doubleArrowUp" title="Top" />
+                            </apex:commandLink>
+                        </apex:outputPanel>
+                        <br/>
+                        <apex:outputPanel layout="block" styleClass="text">
+                            <apex:commandLink rerender="fieldNames" onClick="blockNode('{!idToBlock}'); upDown('{!$Component.multiselectPanel}:rightList', true); updateSoqlQuery('{!$Component.multiselectPanel}:rightList', '{!$Component.fieldNames}');" onComplete="unblockNode('{!idToBlock}');">
+                                <apex:image value="/s.gif" alt="Up" styleClass="upArrowIcon" title="Up" />
+                            </apex:commandLink>
+                        </apex:outputPanel>
+                        <br/>
+                        <apex:outputPanel layout="block" styleClass="text">
+                            <apex:commandLink rerender="fieldNames" onClick="blockNode('{!idToBlock}'); upDown('{!$Component.multiselectPanel}:rightList', false); updateSoqlQuery('{!$Component.multiselectPanel}:rightList', '{!$Component.fieldNames}');" onComplete="unblockNode('{!idToBlock}');">
+                                <apex:image value="/s.gif" alt="Down" styleClass="downArrowIcon" title="Down" />
+                            </apex:commandLink>
+                        </apex:outputPanel> 
+                        <br/>               
+                        <apex:outputPanel layout="block" styleClass="text">
+                            <apex:commandLink rerender="fieldNames" onClick="blockNode('{!idToBlock}'); firstLast('{!$Component.multiselectPanel}:rightList', false); updateSoqlQuery('{!$Component.multiselectPanel}:rightList', '{!$Component.fieldNames}');" onComplete="unblockNode('{!idToBlock}');">
+                                <apex:image value="/s.gif" alt="Bottom" styleClass="doubleArrowDwn" title="Bottom" />
+                            </apex:commandLink>
+                       </apex:outputPanel>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <apex:inputHidden id="fieldNames" value="{!soqlQuery.fieldNames}" />
+    </apex:outputPanel>
+    
+    <!-- Add Javascript libs at last position -->            
+    <apex:includeScript value="{!$Resource.jquery_min_js}" /> 
+    <apex:includeScript value="{!$Resource.jquery_blockUI_js}" /> 
+    <apex:includeScript value="{!$Resource.tableGrid_js}" />  
+    
+    <!-- Javascript to handle list changes on the client side only before submitting changes to the server. -->
+    <script type="text/javascript">
+        $j = jQuery.noConflict();
+        
+        $j(document).ready(function() {
+        
+            leftRight = function(sourceListId, targetListId) {
+                var sourceList = $j('*[id*="' + sourceListId + '"]'); 
+                var selectedOptions = sourceList.find(' option:selected');
+                var targetList = $j('*[id*="' + targetListId + '"]');
+                
+                selectedOptions.remove().appendTo(targetList); 
+                selectedOptions.removeAttr('selected');
+                
+                targetList.focus();
+            };
+             
+            upDown = function(listId, moveUp) {
+                var list = $j('*[id*="' + listId + '"]');
+                var selectedOptions = list.find('option:selected');
+                
+                if(moveUp) {
+                 	selectedOptions.each(function (i, selected) {
+                   		$j(this).insertBefore($j(this).prev());
+                  	});
+                } 
+                else {
+                	$j(selectedOptions.get().reverse()).each(function (i, selected) {
+                   		$j(this).insertAfter($j(this).next());
+                  	});
+                }
+                 
+             	list.focus();
+             };
+            
+             firstLast = function(listId, moveUp) {
+                var list = $j('*[id*="' + listId + '"]');
+                var selectedOptions = list.find('option:selected');
+                
+                if(moveUp) {
+                    selectedOptions.prependTo(selectedOptions.parent().first());
+                } 
+                else {
+                    selectedOptions.appendTo(selectedOptions.parent().last());
+                }
+                
+                list.focus();
+             };
+
+               
+            /**
+             * Update the SoqlQuery object field list via updateting a binded hidden input field
+             */ 
+            updateSoqlQuery = function(listId, hiddenInputId) {
+                var displayedFields = $j('*[id*="' + listId + '"]').find('option');
+                var fieldNamesHiddenInput = $j('*[id*="' + hiddenInputId + '"]');
+                var fieldList = ''; 
+                
+                displayedFields.each(function (i, selected) {
+                    fieldList += $j(this).val() + ',';
+                });
+                 
+                if(fieldList.length > 0) {
+                    fieldList = fieldList.substring(0, fieldList.length-1);
+                }
+                
+                fieldNamesHiddenInput.val(fieldList);
+             };        
+         }); 
+      </script>
+</apex:component>

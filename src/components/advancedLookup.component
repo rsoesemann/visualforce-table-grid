@@ -1,0 +1,65 @@
+<!-- 
+/*
+Copyright (c) 2013 Up2Go International LLC
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:
+
+1. Redistributions of source code must retain the above copyright
+   notice, this list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright
+   notice, this list of conditions and the following disclaimer in the
+   documentation and/or other materials provided with the distribution.
+3. The name of the author may not be used to endorse or promote products 
+   derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE AUTHOR "AS IS" AND ANY EXPRESS OR
+IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, 
+INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
+-->
+<!-- 
+/**
+ *	Component that can be wrapped around a standard <apex:inputField> of type lookup to replace 
+ *  Salesforce.com standard lookup popups with a TableGrid. 
+ */
+ -->
+<apex:component >
+	<apex:attribute name="hasBody" type="Boolean" required="false" default="true" description="Set to false, if you want to convert all lookup fields on a page instead of a single one wrapped by this component." />
+	
+	<apex:outputPanel id="body" rendered="{!hasBody}">
+		<apex:componentBody />
+	</apex:outputPanel>
+
+	<apex:includeScript value="{!$Resource.jquery_min_js}" />
+	
+    <script type="text/javascript">
+	    $j = jQuery.noConflict();
+        
+        $j(document).ready(function() { 
+        	var context = $j('.lookupInput');
+        	
+        	// If component should be applied only for body, set context to this components DOM 
+        	if({!hasBody}) {
+        		context	= $j(document.getElementById('{!$Component.body}')).find('.lookupInput');
+        	}
+        	// Replace link href so that lookup button leads to advanced lookup page
+        	context.find('a').each(function() {
+	        	var oldHref = $j(this).attr('href');
+	        	oldHref = decodeURIComponent(oldHref);
+	        	var newHref = oldHref.replace('_ui/common/data/LookupPage', 'apex/advancedLookup');	
+				$j(this).attr('href', newHref)
+        	});
+		});
+	</script>
+	
+</apex:component>

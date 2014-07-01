@@ -1,0 +1,89 @@
+<!-- 
+/*
+Copyright (c) 2013 Up2Go International LLC
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:
+
+1. Redistributions of source code must retain the above copyright
+   notice, this list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright
+   notice, this list of conditions and the following disclaimer in the
+   documentation and/or other materials provided with the distribution.
+3. The name of the author may not be used to endorse or promote products 
+   derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE AUTHOR "AS IS" AND ANY EXPRESS OR
+IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, 
+INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
+-->
+
+<!-- 
+/**
+ *	This example page shows how to customize a Standard Layout by embedding a Visualforce page that uses TableGrid instances as a replacement for Standard related lists 
+ *  and still allows users to configurativly edit  their page layouts
+ *
+ *  This page uses <apex:detail > to leave a custom page configurable. It only adds Javascript code to move TableGrid instances to position in the page 
+ *  where Standard related list would be rendered.
+ *
+ *  This code also handles the resizing of the iframe with the embedded VF page when it changes its size.
+ */
+ -->
+<apex:page standardController="Account">
+    <apex:includeScript value="{!$Resource.jquery_min_js}" /> 
+    
+    <script type="text/javascript">
+        $j = jQuery.noConflict();
+        
+        // On page load
+        $j(document).ready(function() {
+        
+            // Find all iframes in current page's detail block
+            var detailBlock = $j('.bDetailBlock');
+            var iframes = $j(detailBlock).find('iframe');
+            
+            // Each found iframe
+            iframes.each(function() {   
+                // Move after out and after detail block including required parents
+                var iframe = $j(this);
+                var trtd = iframe.parentsUntil('tr');
+                iframe.parent().children().insertAfter(detailBlock);
+                
+                // Remove tr/td around iframe
+                trtd.remove();
+                
+                // Attach a onload hander, that resizes the iframe
+                iframe.load(function() {
+                    resizeIFrame($j(this));
+                    
+                    // Remove margins
+                    var body = $j(this).contents().find('body');
+                    body.css('margin-left',0);
+                    body.css('margin-right',0);
+                    
+                    // Also attach resizerl to twisty cklick event
+                    var twisty = body.find('.showListButton, .hideListButton');
+                    twisty.click( function() {
+                        resizeIFrame(iframe);
+                    });
+                });
+            });
+        });
+        
+        resizeIFrame = function(iframe) {
+            iframe.attr('height', iframe.contents().find('html').height()); 
+        };
+    </script>
+    
+    <apex:detail />
+</apex:page>
