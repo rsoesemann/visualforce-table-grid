@@ -1,6 +1,11 @@
 # Visualforce TableGrid #
 
-[Installation/Download](#installationdownload) | [Usage](#usage-examples) | [Know Issues/Todos](#known-issuestodos) | [Third Party Code](#third-party-code) | [Licence](#visualforce-tablegrid-license)
+<a href="https://githubsfdeploy.herokuapp.com?owner=Up2Go&repo=visualforce-table-grid">
+  <img alt="Deploy to Salesforce"
+       src="https://raw.githubusercontent.com/afawcett/githubsfdeploy/master/src/main/webapp/resources/img/deploy.png">
+</a>
+
+[[Usage](#usage-examples) | [Know Issues/Todos](#known-issuestodos) | [Third Party Code](#third-party-code) | [Licence](#visualforce-tablegrid-license)
 
 TableGrid is a free, open-source Force.com library, that provides users and developers a *highly customizable, native-looking, sortable, filterable, editable* Grid Visualforce component. 
 This component can be used as an advanced, highly configurable (by developer and user) replacement of <apex:pageBlockTable>s and Standard Related Lists.
@@ -19,16 +24,6 @@ This component can be used as an advanced, highly configurable (by developer and
 - Filter Builder UI to let users filter records
 - Field Selection UI to let users customize columns 
 - Each user`s customizations can be auto-saved in a "database-cookie"
-
-
-## Installation/Download ##
-
-**[Directly deploy to your Salesforce org](https://githubsfdeploy.herokuapp.com/app/githubdeploy/Up2Go/visualforce-table-grid)**
-
-or
-
-1. Grab the source code: `git clone https://github.com/Up2Go/visualforce-table-grid.git`
-2. Deploy the Force.com metadata under the src folder to your destination org. You can deploy that using [Force.com Migration Tool](http://wiki.developerforce.com/index.php/Force.com_Migration_Tool) #or by using [Force.com IDE](http://wiki.developerforce.com/index.php/Force.com_IDE)
 
 
 ## Usage Examples ##
