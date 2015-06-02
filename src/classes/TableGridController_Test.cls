@@ -29,10 +29,11 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /**
  *	@author Robert Soesemann (robert.soesemann@up2go.com)
  */
-@isTest
-private class TableGridController_Test {
+ @isTest
+public class TableGridController_Test {
    
     static testMethod void happyPath() {
+    	
         // Setup
         List<TableGridAccessible__c> dummyObjects = new List<TableGridAccessible__c>();
         
@@ -43,14 +44,16 @@ private class TableGridController_Test {
         
         Boolean exceptionNotThrown = true;
         
+        
         // Exercise
-        System.runAs(TableGridTestHelper.testUser()) {
+        System.runAs(testUser()) {
             try {
                 TableGridController ctlr = new TableGridController();
                 ctlr.typeParam = 'TableGridAccessible__c';
                 ctlr.fieldsParam = 'txt_TextField__c, num_IntegerField__c';
                 ctlr.modeParam = 'edit';
-                ctlr.sortDescending = true;
+                ctlr.sortDescParam = true;
+                ctlr.selectedIds = new List<String>();
                 
                 // Exercise
                 ctlr.getInit();
@@ -77,4 +80,72 @@ private class TableGridController_Test {
             System.assert(exceptionNotThrown);
         }
     }
+    
+    // TEST HELPER
+    
+    @TestVisible
+    private final static String TESTUSER_PROFILE = 'U2G_TestUserProfile';
+    @TestVisible
+    private final static String ACCESSIBLE_SOBJECT = 'TableGridAccessible__c';
+    @TestVisible
+    private final static String TEXT_FIELD = 'txt_TextField__c';
+    @TestVisible
+    private final static String INTEGER_FIELD = 'num_IntegerField__c';
+    @TestVisible
+    private final static String INACCESSIBLE_FIELD = 'txt_InaccessibleField__c';
+    @TestVisible
+    private final static String INACCESSIBLE_SOBJECT = 'TableGridInaccessible__c'; 
+     
+    @TestVisible
+    private static Schema.SObjectField textField() {
+        return SchemaCache.field(ACCESSIBLE_SOBJECT, TEXT_FIELD);
+    }
+    @TestVisible
+    private static Schema.SObjectField integerField() {
+        return SchemaCache.field(ACCESSIBLE_SOBJECT, INTEGER_FIELD);
+    }
+    
+    @TestVisible
+    private static User testUser() {
+        return userOfType(TESTUSER_PROFILE);
+    }
+    
+    @TestVisible
+    private static SObject newTestSObject() {
+        return SchemaCache.object(ACCESSIBLE_SOBJECT).newSObject();
+    }   
+     
+    @TestVisible
+    private static Integer indexOfIn(String value, List<SelectOption> optionList) {
+        for(Integer index=0; index<optionList.size(); index++) {
+            SelectOption o = optionList.get(index);
+            
+            if(o.getValue().equals(value)) {
+                return index;
+            }
+        }
+        return -1;
+    }
+    
+    @TestVisible
+    private static User userOfType(String pName) {
+         Profile p = [select id from profile where name=:pName]; 
+         String rndTxt = rndTxt();
+         User u = new User(alias = rndTxt, email=rndTxt+'@testorg.com', 
+              emailencodingkey='UTF-8', lastname='Testing', languagelocalekey='en_US', 
+              localesidkey='en_US', profileid = p.Id, 
+              timezonesidkey='America/Los_Angeles', username=rndTxt+'@testorg.com');
+        insert u;     
+        return u;            
+    }
+    
+    @TestVisible
+    private static String rndTxt() {
+        String result = '';
+        for(Integer i=0; i<8; i++) {
+            Integer pos = (Math.random() * 25).intValue();
+            result += 'abcdefghijklmnopqrstuvwxyz'.substring(pos, pos+1);
+        }
+        return result;
+     }
 }

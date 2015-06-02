@@ -72,7 +72,10 @@
         <members>U2G_2Table_PaginationPageSizeLabel</members>
         <members>U2G_2Table_PaginationPreviousLinkLabel</members>
         <members>U2G_2Table_PaginationStatusline</members>
+        <members>U2G_2Table_SettingsDefaultsButtonLabel</members>
         <members>U2G_2Table_SettingsDisplayedFieldsLabel</members>
+        <members>U2G_2Table_SettingsSectionLabel</members>
+        <members>U2G_2Table_SettingsSubmitButtonLabel</members>
         <name>CustomLabel</name>
     </types>
     <types>
@@ -94,10 +97,6 @@
         <name>ListView</name>
     </types>
     <types>
-        <members>U2G_TestUserProfile</members>
-        <name>Profile</name>
-    </types>
-    <types>
         <members>jquery_blockUI_js</members>
         <members>jquery_min_js</members>
         <members>pasteIcon_png</members>
@@ -105,5 +104,5 @@
         <members>tableGrid_js</members>
         <name>StaticResource</name>
     </types>
-    <version>29.0</version>
+    <version>33.0</version>
 </Package>

@@ -43,10 +43,31 @@
         <value>Page {0} of {1} - {2} total results</value>
     </labels>
     <labels>
+        <fullName>U2G_2Table_SettingsDefaultsButtonLabel</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>UP2GO 2Table Settings_DefaultsButtonLabel</shortDescription>
+        <value>Reset to Default</value>
+    </labels>
+    <labels>
         <fullName>U2G_2Table_SettingsDisplayedFieldsLabel</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>UP2GO 2Table Settings Displayed Fields Label</shortDescription>
         <value>Displayed Fields</value>
+    </labels>
+    <labels>
+        <fullName>U2G_2Table_SettingsSectionLabel</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>UP2GO 2Table Settings_SectionLabel</shortDescription>
+        <value>Settings</value>
+    </labels>
+    <labels>
+        <fullName>U2G_2Table_SettingsSubmitButtonLabel</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>UP2GO 2Table Settings_SubmitButtonLabel</shortDescription>
+        <value>Apply changes</value>
     </labels>
 </CustomLabels>
