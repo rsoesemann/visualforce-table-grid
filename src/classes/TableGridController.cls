@@ -268,8 +268,10 @@ public with sharing class TableGridController {
 	
 	public void doHandleSelection() {
 		noneSelected = true;
-		
-		selectedIds.clear();
+		if(selectedIds!=null)
+			selectedIds.clear();
+		else
+			selectedIds = new List<Id>();
 		
 		for(SObjectRow row : rowManager.rows) {
 			if(row.isSelected) {
