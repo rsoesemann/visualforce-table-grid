@@ -1,4 +1,4 @@
 engines:
   pmd:
     enabled: true
-    config: 'config/pmd/pmd.xml'
+    config: 'apex-ruleset.xml'
