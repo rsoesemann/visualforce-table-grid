@@ -5,7 +5,10 @@
        src="https://raw.githubusercontent.com/afawcett/githubsfdeploy/master/src/main/webapp/resources/img/deploy.png">
 </a>
 
-[[Usage](#usage-examples) | [Know Issues/Todos](#known-issuestodos) | [Third Party Code](#third-party-code) | [Licence](#visualforce-tablegrid-license)
+<a href="https://codeclimate.com/github/Up2Go/visualforce-table-grid"><img src="https://codeclimate.com/github/Up2Go/visualforce-table-grid/badges/gpa.svg" /></a>
+<a href="https://codeclimate.com/github/Up2Go/visualforce-table-grid"><img src="https://codeclimate.com/github/Up2Go/visualforce-table-grid/badges/issue_count.svg" /></a>
+
+[Usage](#usage-examples) | [Know Issues/Todos](#known-issuestodos) | [Third Party Code](#third-party-code) | [Licence](#visualforce-tablegrid-license)
 
 TableGrid is a free, open-source Force.com library, that provides users and developers a *highly customizable, native-looking, sortable, filterable, editable* Grid Visualforce component. 
 This component can be used as an advanced, highly configurable (by developer and user) replacement of <apex:pageBlockTable>s and Standard Related Lists.
