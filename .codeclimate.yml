@@ -1,10 +1,20 @@
 engines:
+  eslint:
+    enabled: true
+    config:
+      extensions:
+      - .resource
   apexmetrics:
+    enabled: true
+  csslint:
     enabled: true
 ratings:
   paths:
     - "**.cls"
     - "**.trigger"
+    - "**_js.resource"
+    - "**_jstest.resource"
+    - "**_css.resource"
 exclude_paths:
   - "src/documents/"
   - "src/classes/MetadataService.cls"
