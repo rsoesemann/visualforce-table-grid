@@ -1,17 +1,15 @@
 engines:
+  apexmetrics:
+    enabled: true
   eslint:
     enabled: true
     config:
       extensions:
-      - **_js.resource
-      - **_jstest.resource
-  apexmetrics:
-    enabled: true
+      - _js.resource
   csslint:
     enabled: true
-    config:
-      extensions:
-      - *_css.resource
+    extensions:
+      - _css.resource
 ratings:
   paths:
     - "**.cls"
