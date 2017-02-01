@@ -14,9 +14,7 @@ ratings:
   paths:
     - "**.cls"
     - "**.trigger"
-    - "**_js.resource"
-    - "**_jstest.resource"
-    - "**_css.resource"
+    - "**.resource"
 exclude_paths:
   - "src/documents/"
   - "src/classes/MetadataService.cls"
