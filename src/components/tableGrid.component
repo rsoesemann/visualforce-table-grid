@@ -266,8 +266,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 				                <apex:selectOption itemValue="10" itemLabel="10" />
 				                <apex:selectOption itemValue="25" itemLabel="25" />
 				                <apex:selectOption itemValue="50" itemLabel="50" />
-				                <!-- Reduced that to Max 50 as Doug in 2Forecast with 2x instrances ran into Viewstate size errors -->
-				                
+				               
 				                <apex:actionSupport event="onchange" action="{!doRefresh}" rerender="{!$Component.grid}" onSubmit="blockNode('{!$Component.grid}');" onBeforeDOMUpdate="unblockNode('{!$Component.grid}');" oncomplete="resizeIFrames();"  /> 
 				            </apex:selectList>
 				            
