@@ -7,10 +7,10 @@ engines:
 languages:
   css:
     extensions:
-      - -css.resource
+      - _css.resource
   javascript:
     extensions:
-      - -js.resource
+      - _js.resource
 exclude_paths:
   - src/documents/
   - src/classes/MetadataService.cls
