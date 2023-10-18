@@ -10,7 +10,7 @@
 TableGrid is a free, open-source Force.com library, that provides users and developers a *highly customizable, native-looking, sortable, filterable, editable* Grid Visualforce component. 
 This component can be used as an advanced, highly configurable (by developer and user) replacement of <apex:pageBlockTable>s and Standard Related Lists.
 
-> ![Two instances of Visualforce TableGrid, one read-only and one editable version.](https://raw.github.com/Up2Go/TableGrid/master/resources/grid.png)
+> ![Two instances of Visualforce TableGrid, one read-only and one editable version.](https://raw.github.com/rsoesemann/visualforce-table-grid/master/resources/grid.png)
  
  
 ## Features: ##
@@ -32,7 +32,7 @@ you enough information to get started.
 
 ### TableGrid in a standalone Visualforce page
 
-> ![TableGrid in List mode with Customizations turned on](https://raw.github.com/Up2Go/TableGrid/master/resources/customizable.png)
+> ![TableGrid in List mode with Customizations turned on](https://raw.github.com/rsoesemann/visualforce-table-grid/master/resources/customizable.png)
 
 This  snippet is taken from the sample page `pages/tableGridStandalone.page`.
  
@@ -56,7 +56,7 @@ This  snippet is taken from the sample page `pages/tableGridStandalone.page`.
 
 ### TableGrid embedded into Standard Page Layouts
 
-> ![Two TableGrid instanced replacing Standard Related Lists in a Standard Page Layout](https://raw.github.com/Up2Go/TableGrid/master/resources/tableGrid_embedded.png)
+> ![Two TableGrid instanced replacing Standard Related Lists in a Standard Page Layout](https://raw.github.com/rsoesemann/visualforce-table-grid/master/resources/tableGrid_embedded.png)
 
 This  snippet is taken from the sample page `pages/tableGridRelatedList.page` and `pages/tableGridEmbedded.page`
 
@@ -93,7 +93,7 @@ This  snippet is taken from the sample page `pages/tableGridRelatedList.page` an
 
 ### TableGrid as an Advanced Lookup Popup
 
-> ![TableGrid as an Advanced Lookup Popup](https://raw.github.com/Up2Go/TableGrid/master/resources/advancedLookup.png)
+> ![TableGrid as an Advanced Lookup Popup](https://raw.github.com/rsoesemann/visualforce-table-grid/master/resources/advancedLookup.png)
 
 This  snippet is taken from the sample page `pages/tableGridAdvancedLookup.page`.
 
